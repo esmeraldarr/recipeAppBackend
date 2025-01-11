@@ -1,4 +1,4 @@
-package service
+package services
 
 import (
     "recipeAppBackend/internal/repository"
@@ -7,10 +7,10 @@ import (
 )
 
 type UserService struct {
-    Repo repository.UserRepository
+    Repo *repository.UserRepository
 }
 
-func NewUserService(repo repository.UserRepository) *UserService {
+func NewUserService(repo *repository.UserRepository) *UserService {
     return &UserService{Repo: repo}
 }
 

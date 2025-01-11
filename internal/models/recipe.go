@@ -1,7 +1,7 @@
 package models
 
 type Recipe struct {
-    ID   uint   `gorm:"primaryKey"`
+    ID int `gorm:"primaryKey"`
     Title string
     Ingredients string
     Instructions string
