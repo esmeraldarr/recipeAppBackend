@@ -30,7 +30,7 @@ func (s *UserService) GetUserByID(id int) (models.User, error) {
 }
 
 func (s *UserService) CreateUser(user models.User) (models.User, error) {
-    if user.Name == "" {
+    if user.Username == "" {
         return models.User{}, errors.New("user name is required")
     }
     return s.Repo.Create(user)
