@@ -1,9 +1,10 @@
 package services
 
 import (
-    "recipeAppBackend/internal/repository"
-    "recipeAppBackend/internal/models"
-    "errors"
+	"errors"
+
+	"github.com/esmeraldarr/recipeAppBackend/internal/models"
+	"github.com/esmeraldarr/recipeAppBackend/internal/repository"
 )
 
 type UserService struct {

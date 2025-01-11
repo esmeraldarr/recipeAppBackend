@@ -1,12 +1,13 @@
 package handlers
 
 import (
-    "encoding/json"
-    "net/http"
-    "strconv"
-    "recipeAppBackend/internal/services"
-    "recipeAppBackend/internal/models"
-    "github.com/gorilla/mux"
+	"encoding/json"
+	"net/http"
+	"strconv"
+
+	"github.com/esmeraldarr/recipeAppBackend/internal/models"
+	"github.com/esmeraldarr/recipeAppBackend/internal/services"
+	"github.com/gorilla/mux"
 )
 
 type UserHandler struct {

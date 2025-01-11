@@ -1,8 +1,8 @@
 package repository
 
 import (
-    "recipeAppBackend/internal/models"
-    "gorm.io/gorm"
+	"github.com/esmeraldarr/recipeAppBackend/internal/models"
+	"gorm.io/gorm"
 )
 
 type UserRepository struct {

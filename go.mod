@@ -1,4 +1,4 @@
-module recipeAppBackend
+module github.com/esmeraldarr/recipeAppBackend
 
 go 1.23.4
 

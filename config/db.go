@@ -1,20 +1,17 @@
 package config
 
 import (
-    "gorm.io/driver/sqlite"
-    "gorm.io/gorm"
-    "log"
-	"recipeAppBackend/internal/models"
+	"github.com/esmeraldarr/recipeAppBackend/internal/models"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
-func InitDB() *gorm.DB {
-    db, err := gorm.Open(sqlite.Open("recipe.db"), &gorm.Config{})
-    if err != nil {
-        log.Fatalf("failed to connect database: %v", err)
-    }
-
-    // Automigración de la estructura de User
-    db.AutoMigrate(&models.User{}, &models.Recipe{})
+func DBconnet() *gorm.DB {
+	db, err := gorm.Open(sqlite.Open("recipe.db"), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+	db.AutoMigrate(&models.User{})
 
     return db
 }
