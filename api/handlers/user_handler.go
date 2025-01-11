@@ -1,24 +1,57 @@
 package handlers
 
 import (
-    "net/http"
-    "encoding/json"
+	"encoding/json"
+	"net/http"
+	"strconv"
+
+	"github.com/esmeraldarr/recipeAppBackend/internal/models"
+	"github.com/esmeraldarr/recipeAppBackend/internal/services"
+	"github.com/gorilla/mux"
 )
 
-func GetUsers(w http.ResponseWriter, r *http.Request) {
-    // Lógica para obtener usuarios
-    w.WriteHeader(http.StatusOK)
-    json.NewEncoder(w).Encode("List of users")
+type UserHandler struct {
+    Service *services.UserService
 }
 
-func GetUserByID(w http.ResponseWriter, r *http.Request) {
-    // Lógica para obtener un usuario por ID
-    w.WriteHeader(http.StatusOK)
-    json.NewEncoder(w).Encode("User details")
+func NewUserHandler(service *services.UserService) *UserHandler {
+    return &UserHandler{Service: service}
 }
 
-func CreateUser(w http.ResponseWriter, r *http.Request) {
-    // Lógica para crear un usuario
-    w.WriteHeader(http.StatusCreated)
-    json.NewEncoder(w).Encode("User created")
+func (h *UserHandler) GetUsers(w http.ResponseWriter, r *http.Request) {
+    users, err := h.Service.GetUsers()
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+    json.NewEncoder(w).Encode(users)
+}
+
+func (h *UserHandler) GetUserByID(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id, err := strconv.Atoi(vars["id"])
+    if err != nil {
+        http.Error(w, "Invalid user ID", http.StatusBadRequest)
+        return
+    }
+    user, err := h.Service.GetUserByID(id)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusNotFound)
+        return
+    }
+    json.NewEncoder(w).Encode(user)
+}
+
+func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
+    var user models.User
+    if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
+        http.Error(w, "Invalid input", http.StatusBadRequest)
+        return
+    }
+    createdUser, err := h.Service.CreateUser(user)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+    json.NewEncoder(w).Encode(createdUser)
 }

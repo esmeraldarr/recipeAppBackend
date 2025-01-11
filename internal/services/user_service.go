@@ -1,16 +1,17 @@
-package service
+package services
 
 import (
-    "recipeAppBackend/internal/repository"
-    "recipeAppBackend/internal/models"
-    "errors"
+	"errors"
+
+	"github.com/esmeraldarr/recipeAppBackend/internal/models"
+	"github.com/esmeraldarr/recipeAppBackend/internal/repository"
 )
 
 type UserService struct {
-    Repo repository.UserRepository
+    Repo *repository.UserRepository
 }
 
-func NewUserService(repo repository.UserRepository) *UserService {
+func NewUserService(repo *repository.UserRepository) *UserService {
     return &UserService{Repo: repo}
 }
 
@@ -30,7 +31,7 @@ func (s *UserService) GetUserByID(id int) (models.User, error) {
 }
 
 func (s *UserService) CreateUser(user models.User) (models.User, error) {
-    if user.Name == "" {
+    if user.Username == "" {
         return models.User{}, errors.New("user name is required")
     }
     return s.Repo.Create(user)

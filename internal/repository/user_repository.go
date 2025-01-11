@@ -1,41 +1,31 @@
 package repository
 
 import (
-    "recipeAppBackend/internal/models"
-    "errors"
+	"github.com/esmeraldarr/recipeAppBackend/internal/models"
+	"gorm.io/gorm"
 )
 
 type UserRepository struct {
-    data map[int]models.User
-    nextID int
+    db *gorm.DB
 }
 
-func NewUserRepository() *UserRepository {
-    return &UserRepository{
-        data:   make(map[int]models.User),
-        nextID: 1,
-    }
+func NewUserRepository(db *gorm.DB) *UserRepository {
+    return &UserRepository{db: db}
 }
 
 func (r *UserRepository) GetAll() ([]models.User, error) {
-    users := make([]models.User, 0, len(r.data))
-    for _, user := range r.data {
-        users = append(users, user)
-    }
-    return users, nil
+    var users []models.User
+    result := r.db.Find(&users)
+    return users, result.Error
 }
 
 func (r *UserRepository) GetByID(id int) (models.User, error) {
-    user, exists := r.data[id]
-    if !exists {
-        return models.User{}, errors.New("user not found")
-    }
-    return user, nil
+    var user models.User
+    result := r.db.First(&user, id)
+    return user, result.Error
 }
 
 func (r *UserRepository) Create(user models.User) (models.User, error) {
-    user.ID = r.nextID
-    r.nextID++
-    r.data[user.ID] = user
-    return user, nil
+    result := r.db.Create(&user)
+    return user, result.Error
 }

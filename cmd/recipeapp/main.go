@@ -1,9 +1,7 @@
 package main
 
-import (
-    "recipeAppBackend/internal/repository"
-)
+import "github.com/esmeraldarr/recipeAppBackend/internal/bootstrap"
 
 func main() {
-    repository.CreateDB()
+	bootstrap.StartApp()
 }
